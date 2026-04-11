@@ -1,7 +1,6 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
-import { Client } from "@/components/ui/client";
-import { caller, getQueryClient, trpc } from "@/trpc/server";
+import { getQueryClient, trpc } from "@/trpc/server";
 
 const Page = () => {
   const queryClient = getQueryClient();
@@ -11,9 +10,7 @@ const Page = () => {
   return (
     <div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={"loading..."}>
-          <Client />
-        </Suspense>
+        <Suspense fallback={"loading..."}></Suspense>
       </HydrationBoundary>
     </div>
   );
