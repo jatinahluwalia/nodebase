@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -81,6 +82,12 @@ export const RegisterForm = () => {
                   className="w-full"
                   disabled={isPending}
                 >
+                  <Image
+                    src={"/logos/github.svg"}
+                    width={20}
+                    height={20}
+                    alt="github"
+                  />
                   Continue with Github
                 </Button>
                 <Button
@@ -89,6 +96,12 @@ export const RegisterForm = () => {
                   className="w-full"
                   disabled={isPending}
                 >
+                  <Image
+                    src={"/logos/google.svg"}
+                    width={20}
+                    height={20}
+                    alt="google"
+                  />
                   Continue with Google
                 </Button>
               </div>
@@ -154,7 +167,7 @@ export const RegisterForm = () => {
               </div>
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <Link href={"/signup"} className="underline underline-offset-4">
+                <Link href={"/login"} className="underline underline-offset-4">
                   Login
                 </Link>
               </div>

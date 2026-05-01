@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
@@ -69,6 +70,12 @@ export const LoginForm = () => {
                   className="w-full"
                   disabled={isPending}
                 >
+                  <Image
+                    src={"/logos/github.svg"}
+                    width={20}
+                    height={20}
+                    alt="github"
+                  />
                   Continue with Github
                 </Button>
                 <Button
@@ -77,6 +84,12 @@ export const LoginForm = () => {
                   className="w-full"
                   disabled={isPending}
                 >
+                  <Image
+                    src={"/logos/google.svg"}
+                    width={20}
+                    height={20}
+                    alt="google"
+                  />
                   Continue with Google
                 </Button>
               </div>
