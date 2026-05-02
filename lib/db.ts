@@ -1,4 +1,4 @@
-import { PrismaPostgresAdapter } from "@prisma/adapter-ppg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/prisma/client";
 
 const globalForPrisma = global as typeof global & {
@@ -8,7 +8,7 @@ const globalForPrisma = global as typeof global & {
 const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    adapter: new PrismaPostgresAdapter({
+    adapter: new PrismaPg({
       connectionString: process.env.DATABASE_URL,
     }),
   });

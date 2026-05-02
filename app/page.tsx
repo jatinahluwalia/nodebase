@@ -1,17 +1,36 @@
-import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { Suspense } from "react";
-import { getQueryClient, trpc } from "@/trpc/server";
+"use client";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { useTRPC } from "@/trpc/client";
 
 const Page = () => {
-  const queryClient = getQueryClient();
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.getWorkflows.queryOptions());
+  const queryClient = useQueryClient();
 
-  void queryClient.prefetchQuery(trpc.hello.queryOptions({ text: "Jatin" }));
+  const create = useMutation(
+    trpc.createWorkflow.mutationOptions({
+      onSuccess: () => {
+        queryClient.invalidateQueries(trpc.getWorkflows.queryOptions());
+      },
+    }),
+  );
+
+  const testAI = useMutation(trpc.testAI.mutationOptions());
 
   return (
     <div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={"loading..."}></Suspense>
-      </HydrationBoundary>
+      {JSON.stringify(data)}
+      <Button
+        type="button"
+        disabled={create.isPending}
+        onClick={() => create.mutate()}
+      >
+        Create
+      </Button>
+      <Button onClick={() => testAI.mutate()}>Test AI</Button>
+      {JSON.stringify(testAI.data)}
     </div>
   );
 };

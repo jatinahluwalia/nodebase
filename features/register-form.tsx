@@ -58,6 +58,7 @@ export const RegisterForm = () => {
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
+          console.log(JSON.stringify(ctx.error));
         },
       },
     );
