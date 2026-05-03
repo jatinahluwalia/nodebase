@@ -18,6 +18,11 @@ export const executeAI = inngest.createFunction(
         model: google("gemini-2.5-flash"),
         system: "You are a helpful assistance",
         prompt: "Hehe",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
     const { steps: openaiSteps } = await step.ai.wrap(
@@ -27,6 +32,11 @@ export const executeAI = inngest.createFunction(
         model: openai("gpt-4.1"),
         system: "You are a helpful assistance",
         prompt: "Hehe",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
@@ -37,6 +47,11 @@ export const executeAI = inngest.createFunction(
         model: anthropic("claude-sonnet-4-6"),
         system: "You are a helpful assistance",
         prompt: "Hehe",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
