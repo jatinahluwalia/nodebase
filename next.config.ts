@@ -2,7 +2,10 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  redirects: async () => {
+    return [{ source: "/", destination: "/workflows", permanent: false }];
+  },
+  devIndicators: false,
 };
 
 export default withSentryConfig(nextConfig, {
@@ -40,5 +43,5 @@ export default withSentryConfig(nextConfig, {
       // Automatically tree-shake Sentry logger statements to reduce bundle size
       removeDebugLogging: true,
     },
-  }
+  },
 });
