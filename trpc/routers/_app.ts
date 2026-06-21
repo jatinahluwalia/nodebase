@@ -2,7 +2,12 @@ import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "../init";
+import {
+  baseProcedure,
+  createTRPCRouter,
+  premiumProcedure,
+  protectedProcedure,
+} from "../init";
 
 export const appRouter = createTRPCRouter({
   getWorkflows: baseProcedure.query(() => {
@@ -14,7 +19,7 @@ export const appRouter = createTRPCRouter({
       data: { name: "test-workflow" },
     });
   }),
-  testAI: protectedProcedure.mutation(async () => {
+  testAI: premiumProcedure.mutation(async () => {
     const { text } = await generateText({
       model: google("gemini-2.5-flash"),
       prompt: "Hello",

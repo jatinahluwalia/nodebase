@@ -11,6 +11,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscriptions";
+import { authClient } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -49,6 +51,8 @@ export const menuItems = [
 export const AppSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { hasActiveSubscriptions, isLoading } = useHasActiveSubscription();
 
   return (
     <Sidebar>
@@ -101,21 +105,23 @@ export const AppSidebar = () => {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              tooltip={"Upgrade to Pro"}
-              className="gap-x-4 px-4 h-10"
-              onClick={() => {}}
-            >
-              <StarIcon />
-              Upgrade to Pro
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {!hasActiveSubscriptions && !isLoading && (
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                tooltip={"Upgrade to Pro"}
+                className="gap-x-4 px-4 h-10"
+                onClick={() => authClient.checkout({ slug: "pro" })}
+              >
+                <StarIcon />
+                Upgrade to Pro
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip={"Billing Portal"}
               className="gap-x-4 px-4 h-10"
-              onClick={() => {}}
+              onClick={() => authClient.customer.portal()}
             >
               <CreditCardIcon />
               Billing Portal
@@ -125,7 +131,15 @@ export const AppSidebar = () => {
             <SidebarMenuButton
               tooltip={"Sign Out"}
               className="gap-x-4 px-4 h-10"
-              onClick={() => {}}
+              onClick={() =>
+                authClient.signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      router.push("/login");
+                    },
+                  },
+                })
+              }
             >
               <LogOutIcon />
               Sign Out
